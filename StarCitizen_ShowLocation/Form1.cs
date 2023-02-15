@@ -66,6 +66,9 @@ namespace StarCitizen_ShowLocation
         double rate_of_change = 0;
         double bearing_to_target = 0;
         double current_bearing = 0;
+        double current_elevation = 0;
+        double target_elevation = 0;
+
 
         double sweep_bearing = 0;
         string current_clipboardText = "";
@@ -214,7 +217,7 @@ namespace StarCitizen_ShowLocation
             double range_in_meters = 0;
             for (int i = 1; i < 5; i++)
             {
-                range_in_meters = i * ((max_range*1000)/5); // max_range is in km..so convert back to meteres
+                range_in_meters = i * ((max_range*1000)/5); // max_range is in km..so convert back to meters
                                                             // NB. this is the range across the WHOLE scope NOT from the centre
                 double norm_rangecircle_x = ((range_in_meters) / 1000 / max_range);
                 double norm_rangecircle_y = -((range_in_meters) / 1000 / max_range);
@@ -267,7 +270,7 @@ namespace StarCitizen_ShowLocation
 
 
 
-            using (Pen pen = new Pen(Color.Green, 2))
+            using (Pen pen = new Pen(Color.LightGreen, 2))
             {
                 float center_x = max_x / 2;
                 float center_y = max_y / 2;
@@ -281,6 +284,7 @@ namespace StarCitizen_ShowLocation
                 //e.Graphics.DrawLine(pen, center_x, center_y, center_x + 0, center_y -50);
                 // Create rectangle for icon.
                 
+                /*
                 System.Drawing.Rectangle rect = new System.Drawing.Rectangle(0, 0, 20, 20);
 
                 // Draw icon to screen.
@@ -291,6 +295,12 @@ namespace StarCitizen_ShowLocation
                 //e.Graphics.FillPolygon(new SolidBrush(Color.Red), points2);
 
                 e.Graphics.DrawLine(pen, 0, 25, 0, -25);
+                */
+
+                e.Graphics.DrawLine(pen, -6, 20, 6, 20);    //tail
+                e.Graphics.DrawLine(pen, -15, -15, 15, -15); // wings
+                e.Graphics.DrawLine(pen, 0, 25, 0, -25);    //body
+
                 e.Graphics.TranslateTransform(-center_x, -center_y);
                 e.Graphics.ResetTransform();
             }
@@ -323,6 +333,7 @@ namespace StarCitizen_ShowLocation
 
             //  Display previous target positions
 
+            /*
             int fade = 200;
             foreach(struct_position pos in previous_positions){
                 norm_target_x = 0.5 + ((target_x - pos.x) / 1000 / max_range);
@@ -342,7 +353,7 @@ namespace StarCitizen_ShowLocation
                 }
                 fade = fade-20;
             }
-
+            */
 
             /*
             using (Pen pen = new Pen(Color.Blue, 2))
@@ -368,6 +379,37 @@ namespace StarCitizen_ShowLocation
 
             float max_x = dispXZ.ClientRectangle.Width;
             float max_y = dispXZ.ClientRectangle.Height;
+
+
+
+            // show user
+            //Point[] user_icon = { new Point(100, 100), new Point(200, 100), new Point(150, 10) };
+
+
+            using (Pen pen = new Pen(Color.LightGreen, 2))
+            {
+                float center_x = max_x / 2;
+                float center_y = max_y / 2;
+                //double length_of_ship = 40.0; // meters
+
+                //float nose_x = (float)(length_of_ship * Math.Cos(deg2rad(current_elevation)));
+                //float nose_y = (float)(length_of_ship * Math.Sin(deg2rad(current_elevation)));
+                e.Graphics.TranslateTransform(center_x, center_y);
+                e.Graphics.RotateTransform((float)current_elevation);
+
+
+
+                //e.Graphics.DrawPolygon(pen, user_icon);
+                
+                
+                //e.Graphics.DrawLine(pen, -20, 0, -20, -15);    //tail
+                e.Graphics.DrawRectangle(pen,-24,-9,5,10);    //tail
+                e.Graphics.DrawEllipse(pen, -7,-3, 25, 6); //wings
+                e.Graphics.DrawLine(pen, -30, 0, 25, 0);    //body
+                
+                e.Graphics.TranslateTransform(-center_x, -center_y);
+                e.Graphics.ResetTransform();
+            }
 
             // normalize
             double delta_x, delta_y, delta_z;
@@ -606,18 +648,31 @@ namespace StarCitizen_ShowLocation
                 {
                     lblTargetZ.Text = (target_z / 1000).ToString("N0") + " km";
                 }
-                
+
 
 
 
                 //  Elevation (angle) to target
+                delta_x = target_x - x;
+                delta_y = target_y - y;
+                target_elevation = rad2deg(Math.Atan2(delta_z, delta_x));
+                lblCurrentElevation.Text = String.Format("{0:.##}", target_elevation);
+
+                /*
                 double dist_xy = Math.Sqrt(delta_x_squared + delta_y_squared);
                 
                 double elev_to_target = Math.Atan2((target_z - z),dist_xy);
                 lblElevationToTarget.Text = String.Format("{0:.##}",rad2deg(elev_to_target));
+                */
 
                 // Current Elevation (pitch?) (computed from last and current co-ords
+                delta_x = last_x - x;
+                delta_z = last_z - z;
+                current_elevation = Math.Atan2(delta_z, delta_x);
+                lblCurrentElevation.Text = String.Format("{0:.##}", current_elevation);
 
+
+                /*
                 delta_x = last_x-x;
                 delta_y = last_y-y;
                 delta_z = last_z-z;
@@ -631,7 +686,8 @@ namespace StarCitizen_ShowLocation
                 double pitch = Math.Atan2(delta_z, dist_xy);
 
                 lblCurrentElevation.Text = String.Format("{0:.##}", pitch);
-                
+                */
+
             }
         }
         private void setTarget()
