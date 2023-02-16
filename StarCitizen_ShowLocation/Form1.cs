@@ -372,37 +372,93 @@ namespace StarCitizen_ShowLocation
         
         private void displayXZ_Paint(object sender, PaintEventArgs e)
         {
-            // shows within 20,000 km range
-            // user needs to get this close before the display shows anything
-            double max_range;
-            max_range = 100.0 * display_zoom_2;
+
 
             float max_x = dispXZ.ClientRectangle.Width;
             float max_y = dispXZ.ClientRectangle.Height;
 
+            //
+            // show grid
+            //
+
+            double max_range;
+            max_range = 100.0 * display_zoom;
+
+            // Draw GRID
+            using (Pen pen = new Pen(Color.DarkGreen, 1))
+            {
+                e.Graphics.DrawLine(pen, max_x / 2, 0, max_x / 2, max_y);
+                e.Graphics.DrawLine(pen, 0, max_y / 2, max_x, max_y / 2);
+            }
+
+            // Draw range rings
+            Font drawFont = new Font("Arial", 8);
+            SolidBrush drawBrush = new SolidBrush(Color.LightGreen);
+            double range_in_meters = 0;
+            for (int i = 1; i < 5; i++)
+            {
+                range_in_meters = i * ((max_range * 1000) / 5); // max_range is in km..so convert back to meters
+                                                                // NB. this is the range across the WHOLE scope NOT from the centre
+                double norm_rangecircle_x = ((range_in_meters) / 1000 / max_range);
+                double norm_rangecircle_y = -((range_in_meters) / 1000 / max_range);
 
 
+                float display_rangecircle_x = 0;
+                float display_rangecircle_y = 0;
+                if ((norm_rangecircle_x < 1) && (norm_rangecircle_y < 1))
+                {
+                    display_rangecircle_x = (float)(norm_rangecircle_x * max_x);
+                    display_rangecircle_y = (float)(norm_rangecircle_y * max_y);
+                }
+
+                using (Pen pen = new Pen(Color.DarkGreen, 1))
+                {
+                    e.Graphics.DrawEllipse(pen, (max_x / 2) - (display_rangecircle_x / 2), (max_y / 2) - (display_rangecircle_y) / 2, display_rangecircle_x, display_rangecircle_y);
+                    String drawString = (range_in_meters / 1000 / 2).ToString("N0");
+
+                    // Create font and brush.
+
+
+                    // Create point for upper-left corner of drawing.
+
+                    // Set format of string.
+                    StringFormat drawFormat = new StringFormat();
+                    drawFormat.FormatFlags = StringFormatFlags.DirectionVertical;
+
+                    // Draw string to screen.
+                    e.Graphics.DrawString(drawString, drawFont, drawBrush, (max_x / 2) + (display_rangecircle_x / 2), max_y / 2, drawFormat);
+                }
+            }
+
+            //
             // show user
-            //Point[] user_icon = { new Point(100, 100), new Point(200, 100), new Point(150, 10) };
-
+            //
 
             using (Pen pen = new Pen(Color.LightGreen, 2))
             {
                 float center_x = max_x / 2;
                 float center_y = max_y / 2;
-                //double length_of_ship = 40.0; // meters
-
-                //float nose_x = (float)(length_of_ship * Math.Cos(deg2rad(current_elevation)));
-                //float nose_y = (float)(length_of_ship * Math.Sin(deg2rad(current_elevation)));
+                //float nose_x = (float)(40.0 * Math.Cos(convert_deg_from_north_to_radians(current_elevation)));
+                //float nose_y = (float)(40.0 * Math.Sin(convert_deg_from_north_to_radians(current_elevation)));
                 e.Graphics.TranslateTransform(center_x, center_y);
                 e.Graphics.RotateTransform((float)current_elevation);
+                e.Graphics.DrawLine(pen, -6, 20, 6, 20);    //tail
+                e.Graphics.DrawLine(pen, -15, -15, 15, -15); // wings
+                e.Graphics.DrawLine(pen, 0, 25, 0, -25);    //body
 
+                e.Graphics.TranslateTransform(-center_x, -center_y);
+                e.Graphics.ResetTransform();
+            }
 
+            /*
+            using (Pen pen = new Pen(Color.LightGreen, 2))
+            {
+                float center_x = max_x / 2;
+                float center_y = max_y / 2;
+                double temp_elev = current_elevation;
+                e.Graphics.TranslateTransform(center_x, center_y);
+                e.Graphics.RotateTransform((float)temp_elev);
 
-                //e.Graphics.DrawPolygon(pen, user_icon);
-                
-                
-                //e.Graphics.DrawLine(pen, -20, 0, -20, -15);    //tail
                 e.Graphics.DrawRectangle(pen,-24,-9,5,10);    //tail
                 e.Graphics.DrawEllipse(pen, -7,-3, 25, 6); //wings
                 e.Graphics.DrawLine(pen, -30, 0, 25, 0);    //body
@@ -410,49 +466,36 @@ namespace StarCitizen_ShowLocation
                 e.Graphics.TranslateTransform(-center_x, -center_y);
                 e.Graphics.ResetTransform();
             }
+            */
 
-            // normalize
-            double delta_x, delta_y, delta_z;
+            //
+            // show target
+            //
+
+            
+            double delta_x, delta_z;
+            
             delta_x = target_x - x;
-            delta_y = target_y - y;
             delta_z = target_z - z;
 
-            double target_xy = 0.0; // Math.Sqrt((delta_x*delta_x) + (delta_y * delta_y));
-            double norm_target_xy = 0.5 + (target_xy/1000 / max_range);
-            double norm_target_z = 0.5 - ((target_z-z)/1000 / max_range);
+            
+            double norm_target_x = 0.5 + (delta_x / 1000 / max_range);       // normalize x
+            double norm_target_z = 0.5 - ((delta_z) /1000 / max_range);   // normalize z
 
             float display_target_x = 0;
             float display_target_y = 0;
-            if ((norm_target_xy < 1) && (norm_target_z < 1))
+            if ((norm_target_x < 1) && (norm_target_z < 1))
             {
-                display_target_x = (float)(norm_target_xy * max_x);
+                display_target_x = (float)(norm_target_x * max_x);
                 display_target_y = (float)(norm_target_z * max_y) ; 
             }
 
-            using (Pen pen = new Pen(Color.DarkGreen, 1))
-            {
-                e.Graphics.DrawLine(pen, max_x / 2, 0, max_x / 2, max_y);
-                e.Graphics.DrawLine(pen, 0, max_y / 2, max_x, max_y / 2);
-
-            }
             
             using (Pen pen = new Pen(Color.Red, 3))
             {
                 e.Graphics.DrawEllipse(pen, display_target_x - 4, display_target_y - 4, 8, 8);
             }
-            /*
-            using (Pen pen = new Pen(Color.Blue, 2))
-            {
-                e.Graphics.DrawLine(pen, 0,0, max_x, max_y);
-            }
-            */
-            /*
-            Rectangle ee = new Rectangle(10, 10, 30, 30);
-            using (Pen pen = new Pen(Color.Red, 2))
-            {
-                e.Graphics.DrawRectangle(pen, ee);
-            }
-            */
+            
         }
         private void updateDisplayXY()
         {
@@ -654,9 +697,9 @@ namespace StarCitizen_ShowLocation
 
                 //  Elevation (angle) to target
                 delta_x = target_x - x;
-                delta_y = target_y - y;
-                target_elevation = rad2deg(Math.Atan2(delta_z, delta_x));
-                lblCurrentElevation.Text = String.Format("{0:.##}", target_elevation);
+                delta_z = target_z - z;
+                target_elevation = GetBearing(x,z,target_x,target_z);
+                lblElevationToTarget.Text = String.Format("{0:.##}", target_elevation);
 
                 /*
                 double dist_xy = Math.Sqrt(delta_x_squared + delta_y_squared);
@@ -668,7 +711,7 @@ namespace StarCitizen_ShowLocation
                 // Current Elevation (pitch?) (computed from last and current co-ords
                 delta_x = last_x - x;
                 delta_z = last_z - z;
-                current_elevation = Math.Atan2(delta_z, delta_x);
+                current_elevation = GetBearing(last_x, last_z, x, z);
                 lblCurrentElevation.Text = String.Format("{0:.##}", current_elevation);
 
 

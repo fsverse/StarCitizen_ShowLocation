@@ -248,7 +248,7 @@ namespace StarCitizen_ShowLocation
             // pictureBox1
             // 
             this.pictureBox1.Image = global::StarCitizen_ShowLocation.Properties.Resources.panda;
-            this.pictureBox1.Location = new System.Drawing.Point(915, 1078);
+            this.pictureBox1.Location = new System.Drawing.Point(1642, 1078);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(99, 123);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -519,9 +519,9 @@ namespace StarCitizen_ShowLocation
             // 
             this.dispXZ.BackColor = System.Drawing.Color.Black;
             this.dispXZ.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.dispXZ.Location = new System.Drawing.Point(1031, 336);
+            this.dispXZ.Location = new System.Drawing.Point(35, 1304);
             this.dispXZ.Name = "dispXZ";
-            this.dispXZ.Size = new System.Drawing.Size(584, 865);
+            this.dispXZ.Size = new System.Drawing.Size(865, 735);
             this.dispXZ.TabIndex = 45;
             this.dispXZ.TabStop = false;
             this.dispXZ.Paint += new System.Windows.Forms.PaintEventHandler(this.displayXZ_Paint);
@@ -536,7 +536,7 @@ namespace StarCitizen_ShowLocation
             // 
             this.lblDisplayZoomLevel2.AutoSize = true;
             this.lblDisplayZoomLevel2.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblDisplayZoomLevel2.Location = new System.Drawing.Point(1623, 336);
+            this.lblDisplayZoomLevel2.Location = new System.Drawing.Point(928, 1234);
             this.lblDisplayZoomLevel2.Name = "lblDisplayZoomLevel2";
             this.lblDisplayZoomLevel2.Size = new System.Drawing.Size(46, 51);
             this.lblDisplayZoomLevel2.TabIndex = 48;
@@ -546,7 +546,7 @@ namespace StarCitizen_ShowLocation
             // 
             this.displayZoomOut2.BackColor = System.Drawing.Color.Gray;
             this.displayZoomOut2.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.displayZoomOut2.Location = new System.Drawing.Point(1623, 485);
+            this.displayZoomOut2.Location = new System.Drawing.Point(928, 1383);
             this.displayZoomOut2.Name = "displayZoomOut2";
             this.displayZoomOut2.Size = new System.Drawing.Size(59, 73);
             this.displayZoomOut2.TabIndex = 47;
@@ -558,7 +558,7 @@ namespace StarCitizen_ShowLocation
             // 
             this.displayZoomIn2.BackColor = System.Drawing.Color.Gray;
             this.displayZoomIn2.Font = new System.Drawing.Font("Microsoft Sans Serif", 16.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.displayZoomIn2.Location = new System.Drawing.Point(1623, 406);
+            this.displayZoomIn2.Location = new System.Drawing.Point(928, 1304);
             this.displayZoomIn2.Name = "displayZoomIn2";
             this.displayZoomIn2.Size = new System.Drawing.Size(59, 73);
             this.displayZoomIn2.TabIndex = 46;
@@ -570,7 +570,7 @@ namespace StarCitizen_ShowLocation
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(1035, 121);
+            this.label4.Location = new System.Drawing.Point(22, 1216);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(297, 73);
             this.label4.TabIndex = 49;
@@ -579,7 +579,7 @@ namespace StarCitizen_ShowLocation
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(1296, 193);
+            this.label13.Location = new System.Drawing.Point(596, 1204);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(74, 25);
             this.label13.TabIndex = 51;
@@ -588,7 +588,7 @@ namespace StarCitizen_ShowLocation
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(1048, 191);
+            this.label14.Location = new System.Drawing.Point(364, 1204);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(83, 25);
             this.label14.TabIndex = 50;
@@ -598,7 +598,7 @@ namespace StarCitizen_ShowLocation
             // 
             this.lblCurrentZ.AutoSize = true;
             this.lblCurrentZ.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCurrentZ.Location = new System.Drawing.Point(1051, 233);
+            this.lblCurrentZ.Location = new System.Drawing.Point(366, 1228);
             this.lblCurrentZ.Name = "lblCurrentZ";
             this.lblCurrentZ.Size = new System.Drawing.Size(68, 73);
             this.lblCurrentZ.TabIndex = 52;
@@ -608,7 +608,7 @@ namespace StarCitizen_ShowLocation
             // 
             this.lblTargetZ.AutoSize = true;
             this.lblTargetZ.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTargetZ.Location = new System.Drawing.Point(1302, 233);
+            this.lblTargetZ.Location = new System.Drawing.Point(588, 1228);
             this.lblTargetZ.Name = "lblTargetZ";
             this.lblTargetZ.Size = new System.Drawing.Size(68, 73);
             this.lblTargetZ.TabIndex = 53;
@@ -619,7 +619,7 @@ namespace StarCitizen_ShowLocation
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.ClientSize = new System.Drawing.Size(2493, 1213);
+            this.ClientSize = new System.Drawing.Size(2493, 2345);
             this.Controls.Add(this.lblTargetZ);
             this.Controls.Add(this.lblCurrentZ);
             this.Controls.Add(this.label13);
