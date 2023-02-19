@@ -67,11 +67,14 @@ namespace StarCitizen_ShowLocation
             return deg2rad(t_deg);
             //return (450 - deg) % 360;
         }
+        // The atan() and atan2() functions calculate the arctangent of x and y/x , respectively.
+        // The atan() function returns a value in the range -π/2 to π/2 radians.
+        // The atan2() function returns a value in the range -π to π radians.
         public static double convert_cartesian_to_deg_from_north(double x, double y)
         {
-            double rad = ((3 * Math.PI / 2.0) - Math.Atan2(y, x));
+            double rad = ((3 * Math.PI / 2.0) - Math.Atan2(y, x));  // 270 - some value between -180 to 180
 
-            return fmod(((rad) + (2 * Math.PI)), (2 * Math.PI)) * (180.0 / Math.PI);
+            return fmod(((rad) + (2 * Math.PI)), (2 * Math.PI)) * (180.0 / Math.PI); // returns the division remainder of  (angle + 360) / 360
         }
         public static double rad2deg(double radians)
         {
